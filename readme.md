@@ -5,7 +5,5 @@ Plane weight distribution calculation.
 
 # Contributor
 
-- [Naufal Farras Pratama](
-    22051204006)
-- [Helmy LuqmanulHakim](
-    22051204014)
+- Naufal Farras Pratama - 22051204006
+- Helmy LuqmanulHakim - 22051204014
