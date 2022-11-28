@@ -1,7 +1,7 @@
 This is a repository that used to exam of basic of programming using c++.
 
 # Topics
-Plane weight distribution calculation.
+Calculate shortest path using Dijkstra algorithm.
 
 # Contributor
 
