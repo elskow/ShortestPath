@@ -1,16 +1,15 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-int MAX_W = 5000
-int MAX_p = 40;
-struct data {
-    string nama;
-    int berat_b;
-    int berat_t;
-    int harga;
 
-}
-vector <data> ingfo;
+struct Node {
+    int id;
+    int x , y;
+
+    Node(int id , int x , int y) : id(id) , x(x) , y(y) {}
+};
+
+vector<Node> nodes;
 
 struct Node {
     int id;
@@ -114,86 +113,47 @@ void pemesanan(){
     int temp;
     cin >> temp;
 
-    if(temp == 1){
-        cout << "Pemesanan Kursi Ekonomi" << endl;
-        cout << "Masukkan nama anda : " << endl;
-        string a;
-        cin >> a;
-        ingfo.nama.push_back(a);
-        cout << "Masukkan berat barang anda : " << endl;
-        int b;
-        cin >> b;
-        ingfo.berat_b.push_back(b);
-        cout << "Masukkan berat tubuh anda : " << endl;
-        int c;
-        cin >> c;
-        ingfo.berat_t.push_back(c);
-        cout << "Masukkan harga barang anda : " << endl;
-        int d = 1000000;
-        
-        ingfo.harga.push_back(c);
-        cout << "Pemesanan berhasil" << endl;
-        cout << "Nama : " << a << endl;
-        cout << "Berat Bawaan : " << b << endl;
-        cout << "Harga : " << d << endl;
-        cout << "Untuk kursi anda akan kami hubungi sebelum penerbangan" << endl;
-       
-    }
-    else if(temp == 2){
-        cout << "Pemesanan Kursi VIP" << endl;
-        cout << "Masukkan nama anda : " << endl;
-        string a;
-        cin >> a;
-        ingfo.nama.push_back(a);
-        cout << "Masukkan berat barang anda : " << endl;
-        int b;
-        cin >> b;
-        ingfo.berat_b.push_back(b);
-        cout << "Masukkan berat tubuh anda : " << endl;
-        int c;
-        cin >> c;
-        ingfo.berat_t.push_back(c);
-        cout << "Masukkan harga barang anda : " << endl;
-        int d = 1500000;
-        
-        ingfo.harga.push_back(c);
-        cout << "Pemesanan berhasil" << endl;
-        cout << "Nama : " << a << endl;
-        cout << "Berat Bawaan : " << b << endl;
-        cout << "Harga : " << d << endl;
-        cout << "Untuk kursi anda akan kami hubungi sebelum penerbangan" << endl;
-       
-    }else if(temp == 3){
-        
-    }else if(temp == 4){
-        menu();
-    }else{
-        cout << "Inputan salah" << endl;
-    }
+    nodes.push_back(Node(n + 1, startingnodesx, startingnodesy));
+
+    vector<bool> visited(nodes.size(), false);
+    visited[0] = true;
+    int current = 0;
+    int totaldistance = 0;
+
+    vector<int> path;
     
-}
-void menu(){
-    cout << "============Selamat Datang di Pesawat===========" << endl;
-    cout << "=================PT. Angkasa====================" << endl;
-    cout << "\n";
-    cout << "Silahkan pilih menu dibawah ini :       " << endl;
-    cout << "1. Pemesanan Tiket Pesawat" << endl;
-    cout << "2. Informasi" << endl;
-    cout << "3. Posisi Kursi Pesawat" << endl;
-    cout << "4. Keluar" << endl;
-    cout << "================================================" << endl;
-    int temp;
-    cin >> temp;
-    if(temp == 1){
-        pemesanan();
-    }else if(temp == 2){
-        informasi();
-    }else if(temp == 3){
-        display_kursi();
-    }else if(temp == 4){
-        exit(0);
-    }else{
-        cout << "Inputan salah" << endl;
+    while (true) {
+        int next = -1;
+        int mindistance = INT_MAX;
+
+        // Find the nearest node
+        for (int i = 0; i < nodes.size(); i++) {
+            if (visited[i]) continue;
+
+            int distance = abs(nodes[current].x - nodes[i].x) + abs(nodes[current].y - nodes[i].y);
+            if (distance < mindistance) {
+                mindistance = distance;
+                next = i;
+            }
+        }
+        if (next == -1) break;
+        totaldistance += mindistance;
+        path.push_back(next);
+        visited[next] = true;
+        current = next;
+    }
+
+    totaldistance += abs(nodes[current].x - nodes[nodes.size() - 1].x) + abs(nodes[current].y - nodes[nodes.size() - 1].y);
+
+    cout << "Jarak total yang harus ditempuh : " << totaldistance << endl;
+    cout << "Rute yang harus ditempuh : " << endl;
+
+    for (int i = 0; i < path.size(); i++) {
+        if (i == 0) {
+            cout << "Titik keberangkatan" << " (" << nodes[path[i]].x << ", " << nodes[path[i]].y << ")" << endl;
+        } else {
+            cout << "Paket ke - " << nodes[path[i]].id << " (" << nodes[path[i]].x << ", " << nodes[path[i]].y << ")" << endl;
+        }
     }
 }
 
