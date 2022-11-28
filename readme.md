@@ -5,5 +5,5 @@ Calculate shortest path using Dijkstra algorithm.
 
 # Contributor
 
-- Naufal Farras Pratama - 22051204006
-- Helmy LuqmanulHakim - 22051204014
+- {Naufal Farras Pratama}[https://github.com/NaufalF121] - 22051204006
+- {Helmy LuqmanulHakim}[https://github.com/elskow] - 22051204014
