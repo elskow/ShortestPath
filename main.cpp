@@ -1,3 +1,8 @@
+//Tugas UAS Pemrogaman Dasar
+//Jurusan Teknik Informatika Universitas Negeri Surabaya
+
+
+
 #include <bits/stdc++.h>
 
 using namespace std;
