@@ -2,7 +2,6 @@
 //Jurusan Teknik Informatika Universitas Negeri Surabaya
 
 
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -15,13 +14,20 @@ struct Node {
 };
 
 vector<Node> nodes;
-
+vector<int> path;
 void clearscreen(){
     #ifdef _WIN32
         system("cls");
     #else
         system("clear");
     #endif
+}
+
+void output(int n){
+    if(n == 0)cout << "Kembali ke " << "(" << nodes[0].x << ", " << nodes[0].y << ")" << endl;
+    else {cout << "Kunjungi " << "(" << nodes[n].x << ", " << nodes[n].y << ")" << endl;
+    output(n-1);
+    }
 }
 
 void inputKoordinat(int n){
@@ -60,7 +66,7 @@ int main() {
     int current = 0;
     int totaldistance = 0;
 
-    vector<int> path;
+    
     
     while (true) {
         int next = -1;
@@ -87,15 +93,8 @@ int main() {
 
     cout << "Jarak total yang harus ditempuh : " << totaldistance << endl;
     cout << "Rute yang harus ditempuh : " << endl;
-
-    for (int i = 0; i < path.size(); i++) {
-        if (i == 0) {
-            cout << "Titik keberangkatan" << " (" << nodes[path[i]].x << ", " << nodes[path[i]].y << ")" << endl;
-        } else {
-            cout << "Paket ke - " << nodes[path[i]].id << " (" << nodes[path[i]].x << ", " << nodes[path[i]].y << ")" << endl;
-        }
-    }
-    cout << "Kembali ke " << "(" << nodes[0].x << ", " << nodes[0].y << ")" << endl;
+    cout << "Titik keberangkatan" << " (" << nodes[path[0]].x << ", " << nodes[path[0]].y << ")" << endl;
+    output(path.size() - 1);
 
     return 0;
 }
