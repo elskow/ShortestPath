@@ -1,6 +1,3 @@
-// The main source file for the program.
-// this project gotta be an application of plane ticket booking system, that estimate the weight distribution of the plane
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -15,6 +12,15 @@ struct data {
 }
 vector <data> ingfo;
 
+struct Node {
+    int id;
+    int x , y;
+
+    Node(int id , int x , int y) : id(id) , x(x) , y(y) {}
+};
+
+vector<Node> nodes;
+
 void clearscreen(){
     #ifdef _WIN32
         system("cls");
@@ -23,22 +29,16 @@ void clearscreen(){
     #endif
 }
 
-void display_kursi(){
-    cout << "Posisi kursi penumpang pesawat : " << endl;
-    cout  << "=======================" << endl;
-    cout << "| 1 | 2 |      | 3 | 4 |" << endl;
-    cout << "| 5 | 6 |      | 7 | 8 |" << endl;
-    cout << "| 9 | 10|      | 11| 12|" << endl;
-    cout << "| 13| 14|      | 15| 16|" << endl;
-    cout << "| 17| 18|      | 19| 20|" << endl;
-    cout << "| 21| 22|      | 23| 24|" << endl;
-    cout << "| 25| 26|      | 27| 28|" << endl;
-    cout << "| 29| 30|      | 31| 32|" << endl;
-    cout << "| 33| 34|      | 35| 36|" << endl;
-    cout << "| 37| 38|      | 39| 40|" << endl;
-    cout  << "=======================" << endl;
-
+void inputKoordinat(int n){
+    int x , y;
+    for(int i = 0 ; i < n ; i++){
+        cout << "Masukkan koordinat penerima paket ke-" << i + 1 << " : ";
+        cin >> x >> y;
+        nodes.push_back(Node(i + 1 , x , y));
+    }
 }
+
+=======
 void informasi(){
     cout << "########################## INFORMASI ##########################" << endl;
     cout << "1. Harga kursi Ekonomiu Rp. 1.000.000" << endl;
@@ -46,8 +46,63 @@ void informasi(){
     cout << "3. Harga kursi VVIP Rp. 2.000.000" << endl;
     cout << "Apabila Kursi sudah penuh saat pemesanan tiket akan dihubungi sebelum penerbangan " << endl;
 
-}
 
+int main() {
+    clearscreen();
+
+
+    cout << "\t\tSelamat Datang di Aplikasi Navigasi PergiMakanan" << endl;
+    cout << "\t\t==============================================" << endl;
+
+
+    int startingnodesx, startingnodesy;
+
+    cout << "Silahkan masukkan koordinat awal anda : ";
+    cin >> startingnodesx >> startingnodesy;
+
+    cout << "Masukkan jumlah alamat paket yang akan anda kirimkan : ";
+    int n;
+    cin >> n;
+
+    nodes.push_back(Node(0, startingnodesx, startingnodesy));
+
+    inputKoordinat(n);
+
+    nodes.push_back(Node(n + 1, startingnodesx, startingnodesy));
+
+    vector<bool> visited(nodes.size(), false);
+    visited[0] = true;
+    int current = 0;
+    int totaldistance = 0;
+
+    vector<int> path;
+    
+    while (true) {
+        int next = -1;
+        int mindistance = INT_MAX;
+
+        // Find the nearest node
+        for (int i = 0; i < nodes.size(); i++) {
+            if (visited[i]) continue;
+
+            int distance = abs(nodes[current].x - nodes[i].x) + abs(nodes[current].y - nodes[i].y);
+            if (distance < mindistance) {
+                mindistance = distance;
+                next = i;
+            }
+        }
+        if (next == -1) break;
+        totaldistance += mindistance;
+        path.push_back(next);
+        visited[next] = true;
+        current = next;
+    }
+
+    totaldistance += abs(nodes[current].x - nodes[nodes.size() - 1].x) + abs(nodes[current].y - nodes[nodes.size() - 1].y);
+
+    cout << "Jarak total yang harus ditempuh : " << totaldistance << endl;
+    cout << "Rute yang harus ditempuh : " << endl;
+=======
 void pemesanan(){
     cout << "=================Pemesanan Tiket=================" << endl;
     cout << "Silahkan pilih menu dibawah ini :       " << endl;
@@ -149,3 +204,15 @@ int main(){
         return 0;
     }
 
+
+
+    for (int i = 0; i < path.size(); i++) {
+        if (i == 0) {
+            cout << "Titik keberangkatan" << " (" << nodes[path[i]].x << ", " << nodes[path[i]].y << ")" << endl;
+        } else {
+            cout << "Paket ke - " << nodes[path[i]].id << " (" << nodes[path[i]].x << ", " << nodes[path[i]].y << ")" << endl;
+        }
+    }
+
+    return 0;
+}
