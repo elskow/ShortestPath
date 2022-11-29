@@ -83,12 +83,14 @@ int main() {
 
     totaldistance += abs(nodes[current].x - nodes[nodes.size() - 1].x) + abs(nodes[current].y - nodes[nodes.size() - 1].y);
 
+    clearscreen();
+
     cout << "Jarak total yang harus ditempuh : " << totaldistance << endl;
     cout << "Rute yang harus ditempuh : " << endl;
 
     for (int i = 0; i < path.size(); i++) {
         if (i == 0) {
-            cout << "Titik keberangkatan" << " (" << nodes[path[i]].x << ", " << nodes[path[i]].y << ")" << endl;
+            cout << "Titik keberangkatan" << " (" << nodes[i].x << ", " << nodes[i].y << ")" << endl;
         } else {
             cout << "Paket ke - " << nodes[path[i]].id << " (" << nodes[path[i]].x << ", " << nodes[path[i]].y << ")" << endl;
         }
