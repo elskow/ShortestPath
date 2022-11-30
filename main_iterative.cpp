@@ -15,6 +15,7 @@ struct Node {
 };
 
 vector<Node> nodes;
+vector<int> path;
 
 void clearscreen(){
     #ifdef _WIN32
@@ -33,12 +34,13 @@ void inputKoordinat(int n){
     }
 }
 
+void dijkstra(vector<bool> &visited, vector<Node> &nodes, int current, int totaldistance);
+
 int main() {
     clearscreen();
 
     cout << "\t\tSelamat Datang di Aplikasi Navigasi PergiMakanan" << endl;
     cout << "\t\t==============================================" << endl;
-
 
     int startingnodesx, startingnodesy;
 
@@ -58,8 +60,25 @@ int main() {
     int current = 0;
     int totaldistance = 0;
 
-    vector<int> path;
-    
+    dijkstra(visited, nodes, current, totaldistance);
+
+    clearscreen();
+
+    cout << "Jarak total yang harus ditempuh : " << totaldistance << endl;
+    cout << "Rute yang harus ditempuh : " << endl;
+
+    for (int i = 0; i < path.size(); i++) {
+        if (i == 0) {
+            cout << "Titik keberangkatan" << " (" << nodes[i].x << ", " << nodes[i].y << ")" << endl;
+        }
+        cout << "Paket ke - " << nodes[path[i]].id << " (" << nodes[path[i]].x << ", " << nodes[path[i]].y << ")" << endl;
+    }
+    cout << "Kembali ke " << "(" << nodes[0].x << ", " << nodes[0].y << ")" << endl;
+
+    return 0;
+}
+
+void dijkstra(vector<bool> &visited, vector<Node> &nodes, int current, int totaldistance){
     while (true) {
         int next = -1;
         int mindistance = INT_MAX;
@@ -82,20 +101,4 @@ int main() {
     }
 
     totaldistance += abs(nodes[current].x - nodes[nodes.size() - 1].x) + abs(nodes[current].y - nodes[nodes.size() - 1].y);
-
-    clearscreen();
-
-    cout << "Jarak total yang harus ditempuh : " << totaldistance << endl;
-    cout << "Rute yang harus ditempuh : " << endl;
-
-    for (int i = 0; i < path.size(); i++) {
-        if (i == 0) {
-            cout << "Titik keberangkatan" << " (" << nodes[i].x << ", " << nodes[i].y << ")" << endl;
-        } else {
-            cout << "Paket ke - " << nodes[path[i]].id << " (" << nodes[path[i]].x << ", " << nodes[path[i]].y << ")" << endl;
-        }
-    }
-    cout << "Kembali ke " << "(" << nodes[0].x << ", " << nodes[0].y << ")" << endl;
-
-    return 0;
 }
