@@ -4,3 +4,5 @@ tempCodeRunnerFile.cpp
 .vscode/tasks.json
 .vscode
 cmake-build-debug
+EXECUTABLEFILE
+CMakeLists.txt
