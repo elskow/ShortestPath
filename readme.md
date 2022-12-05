@@ -1,4 +1,4 @@
-This repository contains the source code for the Basics of Programming course at the [State University of Surabaya](https://www.unesa.ac.id/) using [C++](https://en.wikipedia.org/wiki/C%2B%2B). The course is taught in the [Informatics Department](https://ti.ft.unesa.ac.id/) of the university. The course is taught in Bahasa Indonesia. 
+This repository contains the source code for the Basics of Programming course at the [State University of Surabaya](https://www.unesa.ac.id/) using [C++](https://en.wikipedia.org/wiki/C%2B%2B). The course is taught in the [Informatics Department](https://ti.ft.unesa.ac.id/) of the university. The course is taught in Indonesian langauge. 
 
 # Topics
 Calculate shortest path using Dijkstra algorithm.
