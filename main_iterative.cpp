@@ -8,10 +8,10 @@
 using namespace std;
 
 struct Node {
-    int id;
+    string id;
     int x , y;
 
-    Node(int id , int x , int y) : id(id) , x(x) , y(y) {}
+    Node(string id , int x , int y) : id(id) , x(x) , y(y) {}
 };
 vector<Node> nodes;
 vector<int> path;
@@ -27,9 +27,14 @@ void clearscreen(){
 void inputKoordinat(int n){
     int x , y;
     for(int i = 0 ; i < n ; i++){
+        cout << "Masukkan nama penerima paket ke -" <<i +1 << " : ";
+        string temp;
+        getline(cin, temp);
+
         cout << "Masukkan koordinat penerima paket ke-" << i + 1 << " : ";
         cin >> x >> y;
-        nodes.push_back(Node(i + 1 , x , y));
+        cin.ignore(999999,'\n');
+        nodes.push_back(Node(temp , x , y));
     }
 }
 int totaldistance = 0;
@@ -46,12 +51,12 @@ int main() {
 
     cout << "Silahkan masukkan koordinat awal anda : ";
     cin >> startingnodesx >> startingnodesy;
-
+    cin.ignore(999999,'\n');
     cout << "Masukkan jumlah alamat paket yang akan anda kirimkan : ";
     int n;
     cin >> n;
-
-    nodes.push_back(Node(0, startingnodesx, startingnodesy));
+    cin.ignore(999999,'\n');
+    nodes.push_back(Node("Kurir", startingnodesx, startingnodesy));
 
     inputKoordinat(n);
     
@@ -71,7 +76,11 @@ int main() {
         if (i == 0) {
             cout << "Titik keberangkatan" << " (" << nodes[i].x << ", " << nodes[i].y << ")" << endl;
         }
+
+        cout << "Paket Untuk " << nodes[path[i]].id << " dengan koordinat (" << nodes[path[i]].x << ", " << nodes[path[i]].y << ")" << endl;
+
         cout << "Paket ke - " << nodes[path[i]].id << " (" << nodes[path[i]].x << ", " << nodes[path[i]].y << ")" << endl;
+
     }
     cout << "Kembali ke " << "(" << nodes[0].x << ", " << nodes[0].y << ")" << endl;
 
