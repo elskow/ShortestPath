@@ -4,6 +4,7 @@
 
 
 #include <bits/stdc++.h>
+#include <math.h>
 
 using namespace std;
 
@@ -43,7 +44,8 @@ void inputKoordinat(int n){
     }
 }
 
-void dijkstra(vector<bool> &visited, vector<Node> &nodes, int current, int &totaldistance);
+void dijkstra(vector<bool> &visited, vector<Node> &nodes, int current, float &totaldistance);
+
 
 int main() {
     clearscreen();
@@ -68,7 +70,7 @@ int main() {
     
     vector<bool> visited(nodes.size(), false);
     visited[0] = true;
-    int totaldistance = 0;
+    float totaldistance = 0;
     int current = 0;
    
     clearscreen();
@@ -87,18 +89,22 @@ int main() {
     }
     cout << "Kembali ke " << "(" << nodes[0].x << ", " << nodes[0].y << ")" << endl;
 
-    
-    cout << "Jarak total yang harus ditempuh : " << totaldistance << endl;
+    if ((int(ceil(totaldistance)) % int(floor(totaldistance))) == 0){
+        cout << "Jarak total yang harus ditempuh : " << int(totaldistance) << endl;
+        return 0;
+    } 
+
+    cout << "Jarak total yang harus ditempuh : " << fixed << setprecision(2) << totaldistance << endl;
 
     return 0;
 }
 
-void dijkstra(vector<bool> &visited, vector<Node> &nodes, int current, int &totaldistance)
+void dijkstra(vector<bool> &visited, vector<Node> &nodes, int current, float &totaldistance)
 {
     while (true)
     {
         int next = -1;
-        int mindistance = INT_MAX;
+        float mindistance = INT_MAX;
 
         // Find the nearest node
         for (int i = 0; i < nodes.size(); i++)
@@ -106,7 +112,7 @@ void dijkstra(vector<bool> &visited, vector<Node> &nodes, int current, int &tota
             if (visited[i])
                 continue;
 
-            int distance = abs(nodes[current].x - nodes[i].x) + abs(nodes[current].y - nodes[i].y);
+            float distance = sqrt((abs(nodes[current].x - nodes[i].x))^2 + (abs(nodes[current].y - nodes[i].y))^2);
             if (distance < mindistance)
             {
                 mindistance = distance;
@@ -126,6 +132,6 @@ void dijkstra(vector<bool> &visited, vector<Node> &nodes, int current, int &tota
         // cout << "totaldistance : " << totaldistance << endl;
     }
 
-    totaldistance += abs(nodes[0].x - nodes[current].x) + abs(nodes[0].y - nodes[current].y);
+    totaldistance += sqrt((abs(nodes[0].x - nodes[current].x))^2 + (abs(nodes[0].y - nodes[current].y))^2);
     // cout << "totaldistance : " << totaldistance << endl;
 }
