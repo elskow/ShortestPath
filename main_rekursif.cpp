@@ -7,10 +7,10 @@
 using namespace std;
 
 struct Node {
-    int id;
+    string id;
     int x , y;
 
-    Node(int id , int x , int y) : id(id) , x(x) , y(y) {}
+    Node(string id , int x , int y) : id(id) , x(x) , y(y) {}
 };
 
 vector<Node> nodes;
@@ -24,18 +24,25 @@ void clearscreen(){
 }
 
 void output(int n){
-    if(n == 0)cout << "Kembali ke " << "(" << nodes[0].x << ", " << nodes[0].y << ")" << endl;
-    else {cout << "Kunjungi " << "(" << nodes[n].x << ", " << nodes[n].y << ")" << endl;
+    if(n == -1){cout << "Kembali ke " << "(" << nodes[0].x << ", " << nodes[0].y << ")" << endl;
+    }
+    else 
+    {cout << "Paket Untuk " << nodes[path[n]].id << " dengan koordinat (" << nodes[path[n]].x << ", " << nodes[path[n]].y << ")" << endl;
     output(n-1);
     }
+    
 }
 
 void inputKoordinat(int n){
     int x , y;
     for(int i = 0 ; i < n ; i++){
+        cout << "Masukkan nama penerima paket ke -" <<i +1 << " : ";
+        string temp;
+        getline(cin, temp);
         cout << "Masukkan koordinat penerima paket ke-" << i + 1 << " : ";
         cin >> x >> y;
-        nodes.push_back(Node(i + 1 , x , y));
+        cin.ignore(999999,'\n');
+        nodes.push_back(Node(temp , x , y));
     }
 }
 
@@ -50,15 +57,15 @@ int main() {
 
     cout << "Silahkan masukkan koordinat awal anda : ";
     cin >> startingnodesx >> startingnodesy;
-
+cin.ignore(999999,'\n');
     cout << "Masukkan jumlah alamat paket yang akan anda kirimkan : ";
     int n;
     cin >> n;
-
-    nodes.push_back(Node(0, startingnodesx, startingnodesy));
+cin.ignore(999999,'\n');
+    nodes.push_back(Node("Kurir", startingnodesx, startingnodesy));
 
     inputKoordinat(n);
-    nodes.push_back(Node(n + 1, startingnodesx, startingnodesy));
+    
     vector<bool> visited(nodes.size(), false);
     visited[0] = true;
     int current = 0;
@@ -82,17 +89,23 @@ int main() {
         }
         if (next == -1) break;
         totaldistance += mindistance;
+        
         path.push_back(next);
         visited[next] = true;
         current = next;
     }
 
     totaldistance += abs(nodes[current].x - nodes[nodes.size() - 1].x) + abs(nodes[current].y - nodes[nodes.size() - 1].y);
-
+    totaldistance += abs(nodes[0].x - nodes[nodes.size() - 1].x) + abs(nodes[0].y - nodes[nodes.size() - 1].y);
     cout << "Jarak total yang harus ditempuh : " << totaldistance << endl;
+     
+    
+    
+
+    
     cout << "Rute yang harus ditempuh : " << endl;
-    cout << "Titik keberangkatan" << " (" << nodes[path[0]].x << ", " << nodes[path[0]].y << ")" << endl;
-    output(path.size() - 1);
+    cout << "Titik keberangkatan" << " (" << nodes[0].x << ", " << nodes[0].y << ")" << endl;
+    output(path.size()-1);
 
     return 0;
 }
