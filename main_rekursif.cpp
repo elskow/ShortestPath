@@ -58,9 +58,7 @@ int main() {
     nodes.push_back(Node(0, startingnodesx, startingnodesy));
 
     inputKoordinat(n);
-
     nodes.push_back(Node(n + 1, startingnodesx, startingnodesy));
-
     vector<bool> visited(nodes.size(), false);
     visited[0] = true;
     int current = 0;

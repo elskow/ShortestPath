@@ -76,7 +76,11 @@ int main() {
         if (i == 0) {
             cout << "Titik keberangkatan" << " (" << nodes[i].x << ", " << nodes[i].y << ")" << endl;
         }
+
         cout << "Paket Untuk " << nodes[path[i]].id << " dengan koordinat (" << nodes[path[i]].x << ", " << nodes[path[i]].y << ")" << endl;
+
+        cout << "Paket ke - " << nodes[path[i]].id << " (" << nodes[path[i]].x << ", " << nodes[path[i]].y << ")" << endl;
+
     }
     cout << "Kembali ke " << "(" << nodes[0].x << ", " << nodes[0].y << ")" << endl;
 
