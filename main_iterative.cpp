@@ -10,7 +10,7 @@ using namespace std;
 
 struct Node {
     string id;
-    float x , y;
+    int x , y;
 
     Node(string id , float x , float y) : id(id) , x(x) , y(y) {}
 };
@@ -51,7 +51,7 @@ int main() {
     clearscreen();
     header();
     
-    float startingnodesx, startingnodesy;
+    int startingnodesx, startingnodesy;
 
     cout << "\nSilahkan masukkan koordinat awal anda : ";
     cin >> startingnodesx >> startingnodesy;
