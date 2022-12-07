@@ -10,9 +10,9 @@ using namespace std;
 
 struct Node {
     string id;
-    int x , y;
+    float x , y;
 
-    Node(string id , int x , int y) : id(id) , x(x) , y(y) {}
+    Node(string id , float x , float y) : id(id) , x(x) , y(y) {}
 };
 vector<Node> nodes;
 vector<int> path;
@@ -31,7 +31,7 @@ void header(){
 }
 
 void inputKoordinat(int n){
-    int x , y;
+    float x , y;
     for(int i = 0 ; i < n ; i++){
         cout << "\nMasukkan Nama penerima paket ke -" <<i +1 << " : ";
         string temp;
@@ -44,14 +44,14 @@ void inputKoordinat(int n){
     }
 }
 
-void dijkstra(vector<bool> &visited, vector<Node> &nodes, int current, float &totaldistance);
+void shortestPathAlgorithm(vector<bool> &visited, vector<Node> &nodes, int current, float &totaldistance);
 
 
 int main() {
     clearscreen();
     header();
     
-    int startingnodesx, startingnodesy;
+    float startingnodesx, startingnodesy;
 
     cout << "\nSilahkan masukkan koordinat awal anda : ";
     cin >> startingnodesx >> startingnodesy;
@@ -76,7 +76,7 @@ int main() {
     clearscreen();
     header();
 
-    dijkstra(visited, nodes, current, totaldistance);
+    shortestPathAlgorithm(visited, nodes, current, totaldistance);
 
     cout << "Rute yang harus ditempuh : " << endl;
 
@@ -99,7 +99,7 @@ int main() {
     return 0;
 }
 
-void dijkstra(vector<bool> &visited, vector<Node> &nodes, int current, float &totaldistance)
+void shortestPathAlgorithm(vector<bool> &visited, vector<Node> &nodes, int current, float &totaldistance)
 {
     while (true)
     {
