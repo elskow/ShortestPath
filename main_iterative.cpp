@@ -122,16 +122,12 @@ void dijkstra(vector<bool> &visited, vector<Node> &nodes, int current, float &to
         if (next == -1)
             break;
         
-        // cout << "mindistance : " << mindistance << endl;
         totaldistance += mindistance;
 
         path.push_back(next);
         visited[next] = true;
         current = next;
-        // totaldistance += abs(nodes[current].x - nodes[nodes.size() - 1].x) + abs(nodes[current].y - nodes[nodes.size() - 1].y);
-        // cout << "totaldistance : " << totaldistance << endl;
     }
 
     totaldistance += sqrt((abs(nodes[0].x - nodes[current].x))^2 + (abs(nodes[0].y - nodes[current].y))^2);
-    // cout << "totaldistance : " << totaldistance << endl;
 }
