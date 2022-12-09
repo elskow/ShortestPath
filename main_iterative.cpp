@@ -3,6 +3,8 @@
 
 #include <bits/stdc++.h>
 #include <math.h>
+#include "boost/graph/graphviz.hpp"
+
 
 using namespace std;
 
@@ -55,6 +57,33 @@ float CalculateDistance(int x1, int y1, int x2, int y2)
 
 void dijkstra(vector<bool> &visited, vector<Node> &nodes, int current, float &totaldistance);
 
+void GraphVizz(vector<Node> &nodes, vector<int> &path)
+{
+    using namespace boost;
+    typedef adjacency_list<vecS, vecS, directedS, property<vertex_name_t, string>, property<edge_weight_t, float>> Graph;
+    Graph g;
+
+    property_map<Graph, vertex_name_t>::type name = get(vertex_name, g);
+    property_map<Graph, edge_weight_t>::type weight = get(edge_weight, g);
+
+    for (int i = 0; i < nodes.size(); i++)
+    {
+        add_vertex(nodes[i].id, g);
+    }
+
+    add_edge(0, 1, 1, g);
+
+    for (int i = 0; i < path.size() - 1; i++)
+    {
+        add_edge(path[i], path[i + 1], CalculateDistance(nodes[path[i]].x, nodes[path[i]].y, nodes[path[i + 1]].x, nodes[path[i + 1]].y), g);
+    }
+    add_edge(path[path.size() - 1], 0, 1, g);
+
+    std::ofstream dot_file("graph.dot");
+    write_graphviz(dot_file, g, make_label_writer(name));
+    dot_file.close();
+}
+
 int main()
 {
     clearscreen();
@@ -105,10 +134,13 @@ int main()
     if ((int(ceil(totaldistance)) % int(floor(totaldistance))) == 0)
     {
         cout << "Jarak total yang harus ditempuh : " << int(totaldistance) << endl;
+        GraphVizz(nodes, path);
         return 0;
     }
 
     cout << "Jarak total yang harus ditempuh : " << fixed << setprecision(2) << totaldistance << endl;
+
+    GraphVizz(nodes, path);
 
     return 0;
 }
