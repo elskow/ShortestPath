@@ -66,18 +66,20 @@ void GraphVizz(vector<Node> &nodes, vector<int> &path)
     property_map<Graph, vertex_name_t>::type name = get(vertex_name, g);
     property_map<Graph, edge_weight_t>::type weight = get(edge_weight, g);
 
-    for (int i = 0; i < nodes.size(); i++)
+    add_vertex(nodes[0].id, g);
+    for (int i = 0; i < path.size(); i++)
     {
-        add_vertex(nodes[i].id, g);
+        add_vertex(nodes[path[i]].id, g);
     }
 
-    add_edge(0, 1, 1, g);
-
-    for (int i = 0; i < path.size() - 1; i++)
-    {
-        add_edge(path[i], path[i + 1], CalculateDistance(nodes[path[i]].x, nodes[path[i]].y, nodes[path[i + 1]].x, nodes[path[i + 1]].y), g);
+    for(int i = 0; i < nodes.size(); i++){
+        if(i == nodes.size() - 1){
+            add_edge(i, 0, CalculateDistance(nodes[i].x, nodes[i].y, nodes[0].x, nodes[0].y), g);
+        }
+        else{
+            add_edge(i, i + 1, CalculateDistance(nodes[i].x, nodes[i].y, nodes[i + 1].x, nodes[i + 1].y), g);
+        }
     }
-    add_edge(path[path.size() - 1], 0, 1, g);
 
     std::ofstream dot_file("graph.dot");
     write_graphviz(dot_file, g, make_label_writer(name));
