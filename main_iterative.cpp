@@ -3,7 +3,6 @@
 
 #include <bits/stdc++.h>
 #include <math.h>
-#include "boost/graph/graphviz.hpp"
 
 
 using namespace std;
@@ -57,35 +56,6 @@ float CalculateDistance(int x1, int y1, int x2, int y2)
 
 void dijkstra(vector<bool> &visited, vector<Node> &nodes, int current, float &totaldistance);
 
-void GraphVizz(vector<Node> &nodes, vector<int> &path)
-{
-    using namespace boost;
-    typedef adjacency_list<vecS, vecS, directedS, property<vertex_name_t, string>, property<edge_weight_t, float>> Graph;
-    Graph g;
-
-    property_map<Graph, vertex_name_t>::type name = get(vertex_name, g);
-    property_map<Graph, edge_weight_t>::type weight = get(edge_weight, g);
-
-    add_vertex(nodes[0].id, g);
-    for (int i = 0; i < path.size(); i++)
-    {
-        add_vertex(nodes[path[i]].id, g);
-    }
-
-    for(int i = 0; i < nodes.size(); i++){
-        if(i == nodes.size() - 1){
-            add_edge(i, 0, CalculateDistance(nodes[i].x, nodes[i].y, nodes[0].x, nodes[0].y), g);
-        }
-        else{
-            add_edge(i, i + 1, CalculateDistance(nodes[i].x, nodes[i].y, nodes[i + 1].x, nodes[i + 1].y), g);
-        }
-    }
-
-    std::ofstream dot_file("graph.dot");
-    write_graphviz(dot_file, g, make_label_writer(name));
-    dot_file.close();
-}
-
 int main()
 {
     clearscreen();
@@ -136,13 +106,77 @@ int main()
     if ((int(ceil(totaldistance)) % int(floor(totaldistance))) == 0)
     {
         cout << "Jarak total yang harus ditempuh : " << int(totaldistance) << endl;
-        GraphVizz(nodes, path);
+        cout << "Apakah anda ingin melihat grafiknya? (y/n) : ";
+        char c;
+        cin >> c;
+        c = tolower(c);
+        if (c == 'y')
+        {
+            ofstream file("graph.dot");
+            file << "digraph G {" << endl;
+            for (int i = 0; i < path.size(); i++)
+            {
+                if (i == 0)
+                {
+                    file << "0 [label=\"Titik keberangkatan"
+                         << " (" << nodes[i].x << ", " << nodes[i].y << ")\"];" << endl;
+                }
+                file << i+1 << " [label=\"Paket Untuk " << nodes[path[i]].id << " dengan koordinat (" << nodes[path[i]].x << ", " << nodes[path[i]].y << ")\"];" << endl;
+            }
+            for(int i = 0; i < nodes.size(); i++){
+                for(int j = 0; j < nodes.size(); j++){
+                    if(i != j && j != i+1){
+                        file << i << " -> " << j << " [label=\"" << CalculateDistance(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y) << "\"];" << endl;
+                    }
+                    else if(j == i+1){
+                        file << i << " -> " << j << " [label=\"" << CalculateDistance(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y) << "\", color=\"red\"];" << endl;
+                    }
+                }
+            }
+            file << path.size() << " -> 0 [label=\"" << CalculateDistance(nodes[path[path.size()-1]].x, nodes[path[path.size()-1]].y, nodes[0].x, nodes[0].y) << "\", color=\"red\"];" << endl;
+            file << "}" << endl;
+            file.close();
+            system(("dot -Tpng " + string("graph.dot") + " -o " + string("graph.png")).c_str());
+            system("graph.png");
+        }
         return 0;
     }
 
     cout << "Jarak total yang harus ditempuh : " << fixed << setprecision(2) << totaldistance << endl;
 
-    GraphVizz(nodes, path);
+    cout << "Apakah anda ingin melihat grafiknya? (y/n) : ";
+    char c;
+    cin >> c;
+    c = tolower(c);
+    if (c == 'y')
+    {
+        ofstream file("graph.dot");
+        file << "digraph G {" << endl;
+        for (int i = 0; i < path.size(); i++)
+        {
+            if (i == 0)
+            {
+                file << "0 [label=\"Titik keberangkatan"
+                     << " (" << nodes[i].x << ", " << nodes[i].y << ")\"];" << endl;
+            }
+            file << i+1 << " [label=\"Paket Untuk " << nodes[path[i]].id << " dengan koordinat (" << nodes[path[i]].x << ", " << nodes[path[i]].y << ")\"];" << endl;
+        }
+        for(int i = 0; i < nodes.size(); i++){
+            for(int j = 0; j < nodes.size(); j++){
+                if(i != j && j != i+1){
+                    file << i << " -> " << j << " [label=\"" << CalculateDistance(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y) << "\"];" << endl;
+                }
+                else if(j == i+1){
+                    file << i << " -> " << j << " [label=\"" << CalculateDistance(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y) << "\", color=\"red\"];" << endl;
+                }
+            }
+        }
+        file << path.size() << " -> 0 [label=\"" << CalculateDistance(nodes[path[path.size()-1]].x, nodes[path[path.size()-1]].y, nodes[0].x, nodes[0].y) << "\", color=\"red\"];" << endl;
+        file << "}" << endl;
+        file.close();
+        system(("dot -Tpng " + string("graph.dot") + " -o " + string("graph.png")).c_str());
+        system("graph.png");
+    }
 
     return 0;
 }
